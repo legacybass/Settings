@@ -1,0 +1,10 @@
+﻿{
+	"jsonString": "stringvalue",
+	"jsonInt": 42,
+	"subsection": {
+		"ssString": "ssvalue",
+		"ssInt": 73
+	},
+	"key1": "app value 1",
+	"key2": "app value 2"
+}
