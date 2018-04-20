@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Settings.Tests.Models;
+using Should;
 
 namespace Settings.Tests
 {
@@ -21,12 +22,12 @@ namespace Settings.Tests
 			var actualString = SettingsReader.Get<string>("jsonString");
 			var actualInt = SettingsReader.Get<int>("jsonInt");
 
-			Assert.AreEqual(expectedString, actualString);
-			Assert.AreEqual(expectedInt, actualInt);
+			actualString.ShouldEqual(expectedString);
+			actualInt.ShouldEqual(expectedInt);
 		}
 
 		[TestMethod]
-		public void SettingsReader_ReadFromAppConfigFile()
+		public void SettingsReader_ReadSettingsFromAppConfigFile()
 		{
 			string path = "App.config";
 			string expectedString = "teststringvalue";
@@ -37,8 +38,22 @@ namespace Settings.Tests
 			var actualString = SettingsReader.Get<string>("stringKey");
 			var actualInt = SettingsReader.Get<int>("intKey");
 
-			Assert.AreEqual(expectedString, actualString);
-			Assert.AreEqual(expectedInt, actualInt);
+			actualString.ShouldEqual(expectedString);
+			actualInt.ShouldEqual(expectedInt);
+		}
+
+		[TestMethod]
+		public void SettingsReader_ReadConnectionStringsFromAppConfigFile()
+		{
+			string path = "App.config";
+			string connectionName = "MyTestDb";
+			string expectedString = "data source=(local);initial catalog=Test;integrated security=True;MultipleActiveResultSets=True;";
+
+			SettingsReader = new SettingsReader(path, AppSettingsFileType.APP_CONFIG);
+
+			var actualString = SettingsReader.Get<string>($"ConnectionStrings:{connectionName}");
+
+			actualString.ShouldEqual(expectedString);
 		}
 
 		[TestMethod]
@@ -53,8 +68,8 @@ namespace Settings.Tests
 			var actualString = SettingsReader.Get<string>("stringKey");
 			var actualInt = SettingsReader.Get<int>("intKey");
 
-			Assert.AreEqual(expectedString, actualString);
-			Assert.AreEqual(expectedInt, actualInt);
+			actualString.ShouldEqual(expectedString);
+			actualInt.ShouldEqual(expectedInt);
 		}
 
 		[TestMethod]
@@ -76,9 +91,9 @@ namespace Settings.Tests
 			var actualValue2 = SettingsReader.Get<string>(key2);
 			var actualValue3 = SettingsReader.Get<int>(key3);
 
-			Assert.AreEqual(value1, actualValue1);
-			Assert.AreEqual(value2, actualValue2);
-			Assert.AreEqual(value3, actualValue3);
+			actualValue1.ShouldEqual(value1);
+			actualValue2.ShouldEqual(value2);
+			actualValue3.ShouldEqual(value3);
 		}
 
 		[TestMethod]
@@ -98,8 +113,8 @@ namespace Settings.Tests
 			var actualValue1 = SettingsReader.Get<string>(key1);
 			var actualValue2 = SettingsReader.Get<int>(key2);
 
-			Assert.AreEqual(value1, actualValue1);
-			Assert.AreEqual(value2, actualValue2);
+			actualValue1.ShouldEqual(value1);
+			actualValue2.ShouldEqual(value2);
 		}
 
 		[TestMethod]
@@ -135,14 +150,14 @@ namespace Settings.Tests
 			var boundObject = new TestUser();
 			SettingsReader.Bind(boundObject);
 
-			Assert.AreEqual(user.Username, boundObject.Username);
-			Assert.AreEqual(user.Id, boundObject.Id);
-			Assert.AreEqual(user.Email, boundObject.Email);
-			Assert.IsNotNull(user.Address);
-			Assert.AreEqual(user.Address.Street, boundObject.Address.Street);
-			Assert.AreEqual(user.Address.City, boundObject.Address.City);
-			Assert.AreEqual(user.Address.State, boundObject.Address.State);
-			Assert.AreEqual(user.Address.Zip, boundObject.Address.Zip);
+			boundObject.Username.ShouldEqual(user.Username);
+			boundObject.Id.ShouldEqual(user.Id);
+			boundObject.Email.ShouldEqual(user.Email);
+			boundObject.Address.ShouldNotBeNull();
+			boundObject.Address.Street.ShouldEqual(user.Address.Street);
+			boundObject.Address.City.ShouldEqual(user.Address.City);
+			boundObject.Address.State.ShouldEqual(user.Address.State);
+			boundObject.Address.Zip.ShouldEqual(user.Address.Zip);
 		}
 
 		[TestMethod]
@@ -177,14 +192,14 @@ namespace Settings.Tests
 
 			var boundObject = SettingsReader.Bind<TestUser>();
 
-			Assert.AreEqual(user.Username, boundObject.Username);
-			Assert.AreEqual(user.Id, boundObject.Id);
-			Assert.AreEqual(user.Email, boundObject.Email);
-			Assert.IsNotNull(user.Address);
-			Assert.AreEqual(user.Address.Street, boundObject.Address.Street);
-			Assert.AreEqual(user.Address.City, boundObject.Address.City);
-			Assert.AreEqual(user.Address.State, boundObject.Address.State);
-			Assert.AreEqual(user.Address.Zip, boundObject.Address.Zip);
+			boundObject.Username.ShouldEqual(user.Username);
+			boundObject.Id.ShouldEqual(user.Id);
+			boundObject.Email.ShouldEqual(user.Email);
+			boundObject.Address.ShouldNotBeNull();
+			boundObject.Address.Street.ShouldEqual(user.Address.Street);
+			boundObject.Address.City.ShouldEqual(user.Address.City);
+			boundObject.Address.State.ShouldEqual(user.Address.State);
+			boundObject.Address.Zip.ShouldEqual(user.Address.Zip);
 		}
 
 		[TestMethod]
@@ -212,9 +227,9 @@ namespace Settings.Tests
 			var actualValue2 = SettingsReader.Get<string>(key2);
 			var actualValue3 = SettingsReader.Get<string>(key3);
 
-			Assert.AreEqual(cliValue1, actualValue1);
-			Assert.AreEqual(appSettingsValue2, actualValue2);
-			Assert.AreEqual(environmentValue3, actualValue3);
+			actualValue1.ShouldEqual(cliValue1);
+			actualValue2.ShouldEqual(appSettingsValue2);
+			actualValue3.ShouldEqual(environmentValue3);
 		}
 	}
 }
