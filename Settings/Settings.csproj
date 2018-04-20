@@ -2,6 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Company>Mindfire Technology</Company>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Mindfire.SettingsConfiguration</PackageId>
+    <Authors>Daniel Beus</Authors>
+    <Description>A configuration library that will aggregate settings found from different sources. This includes .config files, command line args, and environment variables.</Description>
+    <Copyright>Copyright 2017</Copyright>
+    <PackageProjectUrl>https://github.com/legacybass/Settings</PackageProjectUrl>
+    <PackageIconUrl>https://avatars1.githubusercontent.com/u/1490142?s=400&amp;amp;v=4</PackageIconUrl>
+    <RepositoryUrl>https://github.com/legacybass/Settings</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>settings configuration</PackageTags>
+    <PackageReleaseNotes>Added ability to read from ConnectionStrings in an app.config</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
